@@ -13,4 +13,4 @@ app.post("/profile", upload.single("avatar"), function (req, res, next) {
   res.send("Done");
 });
 
-app.listen(8000);
+app.listen(80);
