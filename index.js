@@ -34,4 +34,4 @@ app.get("/ahihi", (req, res) => {
   res.sendFile(path.join(__dirname + "/uploads/ccc.jpg"));
 });
 
-app.listen(80);
+app.listen(3000);
