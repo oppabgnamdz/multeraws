@@ -1,6 +1,16 @@
 var express = require("express");
 var multer = require("multer");
-var upload = multer({ dest: "uploads/" });
+const fs = require("fs");
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+var upload = multer({ storage: storage });
 const path = require("path");
 var app = express();
 
@@ -11,10 +21,14 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/index.html"));
 });
 app.post("/profile", upload.single("avatar"), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
-  console.log("post file");
-  res.send("Done");
+  const file = req.file;
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  res.contentType("image/jpeg");
+  res.send(fs.readFileSync(req.file.path));
 });
 app.get("/ahihi", (req, res) => {
   res.sendFile(path.join(__dirname + "/uploads/ccc.jpg"));
