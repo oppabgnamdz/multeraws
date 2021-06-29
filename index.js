@@ -6,7 +6,15 @@ var storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    console.log("ahihi");
+    console.log(file);
+    if (file.mimetype === "image/jpeg") {
+      cb(null, file.fieldname + "-" + Date.now() + ".jpg");
+    }
+    if (file.mimetype === "image/png") {
+      cb(null, file.fieldname + "-" + Date.now() + ".png");
+    }
+    return;
   },
 });
 
@@ -22,16 +30,17 @@ app.get("/", (req, res) => {
 });
 app.post("/profile", upload.single("avatar"), function (req, res, next) {
   const file = req.file;
+  console.log(file);
   if (!file) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
     return next(error);
   }
-  res.contentType("image/jpeg");
-  res.send(fs.readFileSync(req.file.path));
+  //   res.contentType("image/jpeg");
+  // res.sendFile(path.join(__dirname + `/uploads/${file.filename}.jpg`));
 });
-app.get("/ahihi", (req, res) => {
-  res.sendFile(path.join(__dirname + "/uploads/ccc.jpg"));
+app.get("/ahihi/:img", (req, res) => {
+  res.sendFile(path.join(__dirname + `/uploads/ccc.jpg`));
 });
 
-app.listen(80);
+app.listen(8000);
