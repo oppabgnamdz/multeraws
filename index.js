@@ -1,7 +1,6 @@
 var express = require("express");
 var multer = require("multer");
 const fs = require("fs");
-let PORT = process.env.PORT || 8000;
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads");
@@ -46,4 +45,4 @@ app.get("/ahihi/:img", (req, res) => {
   res.sendFile(path.join(__dirname + `/uploads/${req.params.img}.jpg`));
 });
 
-app.listen(PORT);
+app.listen(80);
