@@ -36,13 +36,11 @@ app.post("/profile", upload.single("avatar"), function (req, res, next) {
     error.httpStatusCode = 400;
     return next(error);
   }
-  //   res.contentType("image/jpeg");
-  // res.sendFile(path.join(__dirname + `/uploads/${file.filename}.jpg`));
   res.send(file.filename + "");
 });
-app.get("/ahihi/:img", (req, res) => {
+app.get("/get/:img", (req, res) => {
   console.log(req.params);
-  res.sendFile(path.join(__dirname + `/uploads/${req.params.img}.jpg`));
+  res.sendFile(path.join(__dirname + `/uploads/${req.params.img}`));
 });
 
-app.listen(80);
+app.listen(8000);
